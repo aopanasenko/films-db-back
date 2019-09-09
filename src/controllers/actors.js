@@ -1,31 +1,32 @@
+const mongoose = require('mongoose');
 const { Router } = require('express');
 const { Actor } = require('../models/actors');
 
 const actorsRouter = Router();
 
 // GET /actors/
-actorsRouter.get('/', async function (request, result) {
+actorsRouter.get('/', async function (req, res) {
     try {
         const actors = await Actor.find();
-        result.send(actors);    
+        res.send(actors);    
     } catch (err) {
         console.log(err);
     }
 });
 
 // GET /actors/:id
-actorsRouter.get('/:id', async function(request, result) {
+actorsRouter.get('/:id', async function(req, res) {
     try {
-        const actor = await Actor.findById(request.params.id);
-        result.send(actor);
+        const actor = await Actor.findById(req.params.id);
+        res.send(actor);
     } catch (err) {
         console.log(err);
     }
 });
 
 // POST /actors/create
-actorsRouter.post('/create', function (request, result) {
-    const {name, birth} = request.body;
+actorsRouter.post('/create', function (req, res) {
+    const {name, birth} = req.body;
 
     const actor = new Actor({
         name,
@@ -35,7 +36,7 @@ actorsRouter.post('/create', function (request, result) {
     actor.save(function (err, actor) {
         if (err) throw new Error(err); 
         
-        result.send('Actor created');
+        res.send('Actor created');
     });
 });
 
