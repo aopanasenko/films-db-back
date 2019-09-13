@@ -26,11 +26,11 @@ actorsRouter.get('/:id', async function(req, res) {
 
 // POST /actors/create
 actorsRouter.post('/create', function (req, res) {
-    const {name, birth} = req.body;
+    const {name, age} = req.body;
 
     const actor = new Actor({
         name,
-        birth
+        age
     });
 
     actor.save(function (err, actor) {

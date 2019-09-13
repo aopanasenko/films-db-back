@@ -5,11 +5,34 @@ const filmsRouter = Router();
 
 // GET /films/
 filmsRouter.get('/', async function (req, res) {
-        let films = await Film.find();
+    let films = await Film.find();
         
-        await Film.getOneWithActors(films);
+    await Film.getOneWithActors(films);
 
-        res.send(films);
+    res.send(films);
+});
+
+// GET /films/:id
+filmsRouter.get('/:id', async function (req, res) {
+    try {
+        const film = await Film.findById(req.params.id);
+        res.send(film);
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+// POST /film/update
+filmsRouter.post('/update', async (req, res) => {
+    try {
+        const newFilm = req.body;
+
+        await Film.findByIdAndUpdate(newFilm._id, newFilm, {useFindAndModify: false});
+
+        res.send('Film updated');
+    } catch (err) {
+        console.log(err);
+    }
 });
 
 // POST /films/create

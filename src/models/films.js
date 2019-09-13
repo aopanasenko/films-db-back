@@ -10,7 +10,7 @@ const filmsSchema = new Schema({
         required: true,
         validate: {
             validator: function(name) {
-                return (name.trim() == "");
+                return !(name.trim() == "");
             }
         } 
     },
@@ -38,7 +38,7 @@ filmsSchema.static('getOneWithActors', async (films) => {
     films = await Promise.all(films.map(async (film) => {
         actors = film.actors.map(async actorId => {
             if (mongoose.Types.ObjectId.isValid(actorId)) {
-                const actorResponse = await axios.get(`http://localhost:3000/actors/${actorId}`);
+                const actorResponse = await axios.get(`http://localhost:4000/actors/${actorId}`);
                 const actor = actorResponse.data;
                 return actor;
             }
